@@ -99,7 +99,7 @@ func (r *Reconciler) syncAndBuild(commit string, state *State) error {
 		}
 	}
 
-	buildDur, err := Build(r.cfg.SrcDir, r.cfg.DeployDir, r.cfg.BinaryName, r.cfg.BuildTimeout)
+	buildDur, err := Build(r.cfg.SrcDir, r.cfg.DeployDir, r.cfg.BinaryName, commit, r.cfg.BuildTimeout)
 	if err != nil {
 		return fmt.Errorf("build: %w", err)
 	}
@@ -130,6 +130,8 @@ func (r *Reconciler) syncAndBuild(commit string, state *State) error {
 	state.DeployedAt = time.Now().UTC()
 	state.BuildDurationMs = buildDur.Milliseconds()
 	state.Status = "healthy"
+	state.PilotVersion = version
+	state.PhubotVersion = commit[:8]
 	if len(state.RollbackCommits) > r.cfg.RollbackVersions {
 		state.RollbackCommits = state.RollbackCommits[len(state.RollbackCommits)-r.cfg.RollbackVersions:]
 	}

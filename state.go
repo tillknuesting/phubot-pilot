@@ -14,6 +14,8 @@ type State struct {
 	Status          string    `json:"status"`
 	LastCheck       time.Time `json:"last_check"`
 	RollbackCommits []string  `json:"rollback_commits"`
+	PilotVersion    string    `json:"pilot_version"`
+	PhubotVersion   string    `json:"phubot_version"`
 }
 
 func LoadState(path string) (*State, error) {

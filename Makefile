@@ -3,7 +3,7 @@
 all: build
 
 build:
-	go build -o phubot-pilot .
+	go build -ldflags "-X main.version=$$(git rev-parse --short HEAD 2>/dev/null || echo dev)" -o phubot-pilot .
 
 clean:
 	rm -f phubot-pilot

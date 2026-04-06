@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func Build(srcDir, deployDir, binaryName string, timeout time.Duration) (time.Duration, error) {
+func Build(srcDir, deployDir, binaryName, version string, timeout time.Duration) (time.Duration, error) {
 	binaryPath := filepath.Join(deployDir, binaryName+".new")
 	ctx := context.Background()
 	if timeout > 0 {
@@ -16,7 +16,8 @@ func Build(srcDir, deployDir, binaryName string, timeout time.Duration) (time.Du
 		ctx, cancel = context.WithTimeout(ctx, timeout)
 		defer cancel()
 	}
-	cmd := exec.CommandContext(ctx, "go", "build", "-o", binaryPath, ".")
+	ldflags := fmt.Sprintf("-X main.version=%s", version)
+	cmd := exec.CommandContext(ctx, "go", "build", "-ldflags", ldflags, "-o", binaryPath, ".")
 	cmd.Dir = srcDir
 	cmd.Env = append(cmd.Environ(), "CGO_ENABLED=0")
 	start := time.Now()

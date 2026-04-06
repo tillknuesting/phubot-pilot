@@ -90,7 +90,7 @@ WantedBy=multi-user.target
 	}
 
 	log.Println("[install] building phubot")
-	if _, err := Build(cfg.SrcDir, cfg.DeployDir, cfg.BinaryName, cfg.BuildTimeout); err != nil {
+	if _, err := Build(cfg.SrcDir, cfg.DeployDir, cfg.BinaryName, version, cfg.BuildTimeout); err != nil {
 		return fmt.Errorf("build: %w", err)
 	}
 	activeBinary := filepath.Join(cfg.DeployDir, cfg.BinaryName)

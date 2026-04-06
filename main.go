@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+var version = "dev"
+
 func main() {
 	configPath := flag.String("config", "/etc/phubot-pilot.yaml", "config file path")
 	flag.Parse()
@@ -26,6 +28,7 @@ func main() {
 	case "daemon":
 		log.Println("[pilot] starting daemon")
 		log.Printf("[pilot] repo=%s branch=%s poll=%s", cfg.Repo, cfg.Branch, cfg.PollInterval)
+		log.Printf("[pilot] version=%s", version)
 		r := NewReconciler(cfg)
 		r.Run()
 
@@ -36,6 +39,7 @@ func main() {
 			log.Fatalf("load state: %v", err)
 		}
 		fmt.Printf("Status:     %s\n", state.Status)
+		fmt.Printf("Pilot:      %s\n", version)
 		if state.CurrentCommit != "" {
 			fmt.Printf("Commit:     %s\n", state.CurrentCommit[:8])
 		}
