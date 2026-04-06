@@ -1,0 +1,12 @@
+repo: https://github.com/tillknuesting/phubot.git
+branch: main
+poll_interval: 60s
+deploy_dir: /opt/phubot
+src_dir: /opt/phubot/src
+build_timeout: 120s
+rollback_versions: 3
+binary_name: phubot
+service_name: phubot
+protect_files:
+  - config.json
+  - .phubot
