@@ -55,8 +55,12 @@ func (r *Reconciler) reconcile() error {
 				return fmt.Errorf("heal restart: %w", err)
 			}
 			state.Status = "healed"
-			SaveState(r.stateFile, state)
 		}
+		state.PilotVersion = version
+		if state.PhubotVersion == "" && state.CurrentCommit != "" {
+			state.PhubotVersion = state.CurrentCommit[:8]
+		}
+		SaveState(r.stateFile, state)
 		return nil
 	}
 
